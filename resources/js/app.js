@@ -8,15 +8,33 @@ require('./bootstrap');
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
-// import router from './routes';
+import {routes} from './routes';
 import StoreData from './store'; 
+// import MainApp from './components/MainApp.vue';
 
-// Vue.use(VueRouter);
-window.Vue = require('vue');
+// window.Vue = require('vue');
+Vue.use(VueRouter);
 Vue.use(Vuex);
-
 const store = new Vuex.Store(StoreData);
 
+const router = new VueRouter({
+    routes,
+    mode: 'history'
+})
+
+
+router.beforeEach((to, from, next) => {
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+    const currentUser = store.state.currentUser;
+
+    if(requiresAuth && !currentUser){
+        next('/login');
+    }else if(to.path == '/login' && currentUser){
+        next('/');
+    }else{
+        next();
+    }
+});
 
 /**
  * The following block of code may be used to automatically register your
@@ -29,8 +47,8 @@ const store = new Vuex.Store(StoreData);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('main-component', require('./components/MainComponent.vue').default);
-Vue.component('home', require('./components/Home.vue').default);
+Vue.component('main-app', require('./components/MainApp.vue').default);
+// Vue.component('login', require('./components/auth/Login.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -40,6 +58,6 @@ Vue.component('home', require('./components/Home.vue').default);
 
 const app = new Vue({
     el: '#app',
-    // router,
-    store
+    router,
+    store,
 });
