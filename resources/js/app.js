@@ -9,7 +9,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import {routes} from './routes';
-import StoreData from './store'; 
+import StoreData from './store';
+import {initialize} from  './helpers/general'
 // import MainApp from './components/MainApp.vue';
 
 // window.Vue = require('vue');
@@ -22,19 +23,10 @@ const router = new VueRouter({
     mode: 'history'
 })
 
+initialize(store, router);
 
-router.beforeEach((to, from, next) => {
-    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-    const currentUser = store.state.currentUser;
 
-    if(requiresAuth && !currentUser){
-        next('/login');
-    }else if(to.path == '/login' && currentUser){
-        next('/');
-    }else{
-        next();
-    }
-});
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -48,6 +40,7 @@ router.beforeEach((to, from, next) => {
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('main-app', require('./components/MainApp.vue').default);
+Vue.component('header-header', require('./components/Header.vue').default);
 // Vue.component('login', require('./components/auth/Login.vue').default);
 
 /**
