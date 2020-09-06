@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\Http\Requests\CreateCustomersRequest;
 use Illuminate\Http\Request;
+
 
 class CustomersController extends Controller
 {
@@ -37,7 +39,7 @@ class CustomersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateCustomersRequest $request)
     {
         $customer = Customer::create($request->only(["name","email","phone","website"]));
 

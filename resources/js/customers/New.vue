@@ -91,13 +91,18 @@ import validate from 'validate.js'
                     return;
                 }
 
-                axios.post('/api/customer/new', this.$data.customer, {
-                    headers: {
-                        "Authorization": `Bearer ${this.currentUser.token}` 
-                    }
-                }).then((response) => {
-                    this.$router.push('/customers');
-                })
+                // axios.post('/api/customer/new', this.$data.customer, {
+                //     headers: {
+                //         "Authorization": `Bearer ${this.currentUser.token}` 
+                //     }
+                // }).then((response) => {
+                //     this.$router.push('/customers');
+                // })
+
+                axios.post('/api/customer/new', this.$data.customer)
+                    .then((response) => {
+                        this.$router.push('/customers');
+                    });
             },
             getConstrains(){
                 return {
