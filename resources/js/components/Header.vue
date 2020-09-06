@@ -28,7 +28,7 @@
                         </template>
                         <template v-else>
                             <li class="nav-item">
-                                <router-link to="/custumer" class="nav-link">Customer</router-link>
+                                <router-link to="/customers" class="nav-link">Clientes</router-link>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
